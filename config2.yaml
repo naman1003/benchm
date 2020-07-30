@@ -1,0 +1,117 @@
+test:
+  workers:
+    type: local
+    number: 5
+  rounds:
+    #- label: Change car owner.
+      #txDuration:
+        #- 30
+      #rateControl:
+        #- type: fixed-backlog
+          #opts:
+            #transaction_load: 5
+      #workload:
+        #module: benchmarks/samples/fabric/fabcar/changeCarOwner.js
+        #arguments:
+          #assets: 1000
+    - label: Query all cars.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/queryAllCars.js
+        arguments:
+          assets: 1000
+          startKey: '1'
+          endKey: '50'
+    - label: Query a car.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/queryCar.js
+        arguments:
+          assets: 1000
+    - label: Create a car.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/createCar.js
+    - label: Submit a token.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/subToken.js
+    - label: Query all tokens.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/queryAllToken.js
+        arguments:
+          assets: 1000
+          startKey: '1'
+          endKey: '50'
+    - label: Change ownership of a car.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/changeCar.js   
+    - label: Query a token.
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/queryToken.js
+        arguments:
+          assets: 1000  
+    - label: Return Transactions
+      txDuration:
+        - 30
+      rateControl:
+        - type: fixed-backlog
+          opts:
+            transaction_load: 5
+      workload:
+        module: benchmarks/samples/fabric/fabcar/returntxns.js
+        arguments:
+          assets: 1000
+            
+
+    
+monitor:
+  type:
+    - docker
+    - process
+  docker:
+    name:
+      - all
+  process:
+    - command: node
+      arguments: fabricClientWorker.js
+      multiOutput: avg
+  interval: 1
